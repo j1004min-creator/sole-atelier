@@ -62,7 +62,9 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           {cat ? cat.name : "전체 상품"}
         </h1>
         <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
-          {cat ? cat.description : "44개 상품을 카테고리·가격대·무드로 좁혀 비교해보세요."}
+          {cat
+            ? cat.description
+            : `${all.length}개 상품을 카테고리·가격대·무드로 좁혀 비교해보세요.`}
         </p>
       </header>
 

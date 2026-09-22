@@ -116,7 +116,8 @@ export const BRANDS: SeedBrand[] = [
   { slug: "converse", name: "Converse", nameKo: "컨버스", category: "sports", country: "미국", sortOrder: 7 },
   // 명품
   { slug: "chanel", name: "CHANEL", nameKo: "샤넬", category: "luxury", country: "프랑스", sortOrder: 10 },
-  { slug: "prada", name: "PRADA", nameKo: "프라다", category: "luxury", country: "이탈리아", sortOrder: 11 },
+  { slug: "hermes", name: "HERMÈS", nameKo: "에르메스", category: "luxury", country: "프랑스", sortOrder: 11 },
+  { slug: "prada", name: "PRADA", nameKo: "프라다", category: "luxury", country: "이탈리아", sortOrder: 12 },
   { slug: "gucci", name: "GUCCI", nameKo: "구찌", category: "luxury", country: "이탈리아", sortOrder: 12 },
   { slug: "saint-laurent", name: "SAINT LAURENT", nameKo: "생로랑", category: "luxury", country: "프랑스", sortOrder: 13 },
   { slug: "bottega-veneta", name: "BOTTEGA VENETA", nameKo: "보테가 베네타", category: "luxury", country: "이탈리아", sortOrder: 14 },
@@ -668,6 +669,25 @@ export const PRODUCTS: SeedProduct[] = [
   },
 
   // ──────────────────────────── 명품 브랜드 ────────────────────────────
+  {
+    slug: "hermes-perforated-derby",
+    name: "Perforated Leather Derby",
+    nameKo: "퍼포레이티드 레더 더비",
+    brandSlug: "hermes",
+    category: "luxury",
+    shoeType: "dress",
+    price: 1780000,
+    colorway: "코냑 브라운",
+    materials: "타공 카프 레더, 레더 솔",
+    description: "가죽 전면에 작은 구멍을 촘촘히 뚫어 짠 것처럼 보이게 만든 더비입니다. 통기성이 좋아 여름에도 답답하지 않습니다.",
+    story: "타공 가죽은 빛을 받는 각도에 따라 결이 달라 보입니다. 정장보다 재킷에 슬랙스 정도의 차림에 더 잘 맞습니다.",
+    imageId: "1614252235316-8c857d38b5f4",
+    imageAlt: "코냑 브라운 타공 레더 더비 슈즈 클로즈업",
+    sizes: DRESS_SIZES,
+    moods: ["office", "wedding", "date"],
+    isNew: true,
+    stock: 4,
+  },
   {
     slug: "chanel-slingback-sandal",
     name: "Slingback Strap Sandal",
