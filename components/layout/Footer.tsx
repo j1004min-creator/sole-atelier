@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { currentYearKST } from "@/lib/format";
 import { hasSupabaseEnv } from "@/lib/supabase/server";
 import { CATEGORIES, MOODS } from "@/lib/taxonomy";
 
@@ -81,7 +82,7 @@ export function Footer() {
 
       <div className="border-t border-line">
         <div className="mx-auto max-w-[1280px] px-4 py-5 text-xs text-muted">
-          © {new Date().getFullYear()} SOLE ATELIER · 포트폴리오 데모
+          © {currentYearKST()} SOLE ATELIER · 포트폴리오 데모
         </div>
       </div>
     </footer>
