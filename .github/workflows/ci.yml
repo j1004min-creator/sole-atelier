@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: 시드 데이터 검증 (이미지·브랜드·가격 정합성)
+        run: node --experimental-strip-types scripts/gen-seed.ts > /dev/null
+      - run: npm run typecheck
+      - name: 빌드
+        # 환경변수가 없어도 lib/seed-data.ts 폴백으로 빌드가 통과해야 한다
+        run: npm run build

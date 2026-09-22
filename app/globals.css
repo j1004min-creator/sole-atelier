@@ -1,0 +1,80 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import "tailwindcss";
+
+@theme {
+  /* 밝은 톤 기반. 어두운 배경은 쓰지 않는다. */
+  --color-paper: #ffffff;
+  --color-surface: #faf9f7;
+  --color-surface-2: #f3f1ed;
+  --color-ink: #16181d;
+  --color-ink-2: #43464d;
+  --color-muted: #6e7178;
+  --color-line: #e8e7e3;
+  --color-line-strong: #d7d5cf;
+
+  /* 카테고리 강조색 — 칩·그래프·배지에 일관되게 쓴다 */
+  --color-sports: #2563eb;
+  --color-sports-soft: #e8effe;
+  --color-luxury: #a07338;
+  --color-luxury-soft: #f6eee2;
+  --color-contemporary: #3f8f7b;
+  --color-contemporary-soft: #e4f2ee;
+
+  --color-sale: #c8452f;
+
+  --font-sans: "Pretendard Variable", Pretendard, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  --radius-card: 12px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+/* 가격은 자릿수가 흔들리지 않게 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* 키보드 사용자를 위한 포커스 링은 항상 남긴다 */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* 가로 스크롤 방지 */
+body {
+  overflow-x: hidden;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
