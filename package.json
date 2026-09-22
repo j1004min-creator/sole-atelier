@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node --experimental-strip-types scripts/print-seed.ts",
+    "seed": "node --experimental-strip-types scripts/gen-seed.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
