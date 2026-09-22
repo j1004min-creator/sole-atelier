@@ -19,7 +19,7 @@
 | 데이터 | Supabase (PostgreSQL + Auth + RLS) |
 | 결제 | 토스페이먼츠 v2 SDK (주문서형) |
 | AI 실착 | Hugging Face Space (FLUX.1 Kontext) — 선택 |
-| 배포 | Vercel (icn1) |
+| 배포 | Vercel |
 
 ## 주요 기능
 
