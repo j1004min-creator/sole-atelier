@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { getSessionUser } from "@/lib/auth";
 import { formatDateTime, formatKRW } from "@/lib/format";
+import { FULFILLMENT_LABEL, type FulfillmentStatus } from "@/lib/fulfillment";
 import { createClient, hasSupabaseEnv } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "주문 내역" };
@@ -48,6 +49,7 @@ export default async function OrdersPage() {
     order_name: string;
     amount: number;
     status: string;
+    fulfillment_status: string;
     created_at: string;
   }[] = [];
 
@@ -55,7 +57,7 @@ export default async function OrdersPage() {
     const supabase = await createClient();
     const { data } = await supabase
       .from("shoe_orders")
-      .select("order_id, order_name, amount, status, created_at")
+      .select("order_id, order_name, amount, status, fulfillment_status, created_at")
       .order("created_at", { ascending: false });
     orders = data ?? [];
   }
@@ -93,7 +95,10 @@ export default async function OrdersPage() {
                       o.status === "PAID" ? "text-contemporary" : "text-muted"
                     }`}
                   >
-                    {STATUS_LABEL[o.status] ?? o.status}
+                    {o.status === "PAID"
+                      ? (FULFILLMENT_LABEL[o.fulfillment_status as FulfillmentStatus] ??
+                        STATUS_LABEL[o.status])
+                      : (STATUS_LABEL[o.status] ?? o.status)}
                   </p>
                 </div>
               </Link>

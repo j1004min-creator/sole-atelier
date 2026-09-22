@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { DeliveryTimeline } from "@/components/order/DeliveryTimeline";
 import { formatDateTime, formatKRW } from "@/lib/format";
 import { createClient, hasSupabaseEnv } from "@/lib/supabase/server";
 
@@ -26,6 +27,14 @@ type OrderDetail = {
   createdAt: string;
   paidAt: string | null;
   failMessage: string | null;
+  fulfillmentStatus: string;
+  courier: string | null;
+  trackingNumber: string | null;
+  shippedAt: string | null;
+  deliveredAt: string | null;
+  fulfillmentNote: string | null;
+  shippingAddress: string | null;
+  shippingPostcode: string | null;
   items: OrderItem[];
 };
 
@@ -158,6 +167,21 @@ export default async function OrderDetailPage({
           </div>
         )}
       </dl>
+
+      {order.status === "PAID" && (
+        <DeliveryTimeline
+          status={order.fulfillmentStatus}
+          createdAt={order.createdAt}
+          paidAt={order.paidAt}
+          shippedAt={order.shippedAt}
+          deliveredAt={order.deliveredAt}
+          courier={order.courier}
+          trackingNumber={order.trackingNumber}
+          note={order.fulfillmentNote}
+          address={order.shippingAddress}
+          postcode={order.shippingPostcode}
+        />
+      )}
 
       {order.receiptUrl && (
         <a

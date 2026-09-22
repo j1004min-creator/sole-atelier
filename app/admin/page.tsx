@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { FulfillmentControl } from "@/components/order/FulfillmentControl";
 import { requireAdmin } from "@/lib/auth";
 import { getCatalog } from "@/lib/catalog";
 import { formatDateTime, formatKRW } from "@/lib/format";
+import { FULFILLMENT_LABEL, type FulfillmentStatus } from "@/lib/fulfillment";
 import { createClient, hasSupabaseEnv } from "@/lib/supabase/server";
 import { CATEGORY_MAP } from "@/lib/taxonomy";
 
@@ -49,13 +51,16 @@ export default async function AdminPage() {
     customer_name: string;
     customer_email: string;
     created_at: string;
+    fulfillment_status: string;
+    courier: string | null;
+    tracking_number: string | null;
   }[] = [];
 
   if (hasSupabaseEnv()) {
     const supabase = await createClient();
     const { data } = await supabase
       .from("shoe_orders")
-      .select("order_id, order_name, amount, status, customer_name, customer_email, created_at")
+      .select("order_id, order_name, amount, status, customer_name, customer_email, created_at, fulfillment_status, courier, tracking_number")
       .order("created_at", { ascending: false })
       .limit(50);
     orders = data ?? [];
@@ -100,6 +105,7 @@ export default async function AdminPage() {
                   <th className="py-2.5 font-medium">주문자</th>
                   <th className="py-2.5 text-right font-medium">금액</th>
                   <th className="py-2.5 font-medium">상태</th>
+                  <th className="py-2.5 font-medium">배송</th>
                   <th className="py-2.5 font-medium">일시</th>
                 </tr>
               </thead>
@@ -122,11 +128,43 @@ export default async function AdminPage() {
                         {STATUS_LABEL[o.status] ?? o.status}
                       </span>
                     </td>
+                    <td className="py-3 text-xs text-muted">
+                      {o.status === "PAID"
+                        ? (FULFILLMENT_LABEL[o.fulfillment_status as FulfillmentStatus] ?? "-")
+                        : "-"}
+                    </td>
                     <td className="py-3 text-xs text-muted tnum">{formatDateTime(o.created_at)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">배송 관리</h2>
+        <p className="mt-1.5 text-xs leading-relaxed text-muted">
+          결제가 완료된 주문만 배송 단계를 바꿀 수 있습니다. 바꾸면 고객의 주문 상세 화면에 바로
+          반영됩니다. 실제 택배사와 연동돼 있지는 않습니다.
+        </p>
+        {paid.length === 0 ? (
+          <p className="mt-4 rounded-card border border-dashed border-line-strong bg-surface px-6 py-10 text-center text-sm text-muted">
+            결제 완료된 주문이 없습니다.
+          </p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {paid.map((o) => (
+              <FulfillmentControl
+                key={o.order_id}
+                orderId={o.order_id}
+                orderName={o.order_name}
+                customerName={o.customer_name}
+                status={o.fulfillment_status}
+                courier={o.courier}
+                trackingNumber={o.tracking_number}
+              />
+            ))}
           </div>
         )}
       </section>
