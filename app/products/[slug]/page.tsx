@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { BuyBox } from "@/components/product/BuyBox";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductTabs } from "@/components/product/ProductTabs";
+import { getSessionUser } from "@/lib/auth";
 import { getCatalog, getProductBySlug } from "@/lib/catalog";
 import { CATEGORY_MAP, SHOE_TYPE_MAP } from "@/lib/taxonomy";
 import { CATEGORY_CLASSES } from "@/lib/theme";
@@ -32,6 +33,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
 
   const all = await getCatalog();
+  const sessionUser = await getSessionUser();
   const cat = CATEGORY_MAP[product.category];
   const cls = CATEGORY_CLASSES[product.category];
 
@@ -91,7 +93,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
-        <BuyBox product={product} />
+        <BuyBox product={product} isLoggedIn={Boolean(sessionUser)} />
       </div>
 
       <ProductTabs

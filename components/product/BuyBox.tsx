@@ -8,7 +8,7 @@ import { WishlistButton } from "@/components/wishlist/WishlistButton";
 import type { Product } from "@/lib/catalog";
 import { discountRate, formatKRW } from "@/lib/format";
 
-export function BuyBox({ product }: { product: Product }) {
+export function BuyBox({ product, isLoggedIn }: { product: Product; isLoggedIn: boolean }) {
   const { add } = useCart();
   const router = useRouter();
   const [size, setSize] = useState<number | null>(null);
@@ -135,7 +135,7 @@ export function BuyBox({ product }: { product: Product }) {
         </button>
       </div>
 
-      <WishlistButton productId={product.id} />
+      <WishlistButton productId={product.id} isLoggedIn={isLoggedIn} />
 
       <p className="mt-3 text-xs leading-relaxed text-muted">
         데모 사이트입니다. 결제는 토스페이먼츠 테스트 키로 진행되며 실제로 청구되지 않습니다.

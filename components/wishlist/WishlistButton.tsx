@@ -4,60 +4,75 @@ import { useEffect, useState } from "react";
 
 import { createClient } from "@/lib/supabase/client";
 
-export function WishlistButton({ productId }: { productId: string }) {
+/**
+ * 로그인 여부는 서버가 이미 알고 있으므로 prop 으로 받는다.
+ * 여기서 auth.getUser() 를 부르면 상품 페이지를 열 때마다 인증 서버로
+ * 왕복이 한 번씩 더 생기고, 토큰 갱신 경합의 원인이 된다.
+ */
+export function WishlistButton({
+  productId,
+  isLoggedIn,
+}: {
+  productId: string;
+  isLoggedIn: boolean;
+}) {
   const [saved, setSaved] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [needLogin, setNeedLogin] = useState(false);
+  const [ready, setReady] = useState(!isLoggedIn);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     let cancelled = false;
     (async () => {
       try {
         const supabase = createClient();
-        const { data: auth } = await supabase.auth.getUser();
-        if (!auth.user) {
-          if (!cancelled) setReady(true);
-          return;
-        }
         const { data } = await supabase
           .from("shoe_wishlists")
           .select("product_id")
           .eq("product_id", productId)
           .maybeSingle();
-        if (!cancelled) {
-          setSaved(Boolean(data));
-          setReady(true);
-        }
+        if (!cancelled) setSaved(Boolean(data));
       } catch {
+        /* 조회 실패해도 버튼은 동작하게 둔다 */
+      } finally {
         if (!cancelled) setReady(true);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [productId]);
+  }, [productId, isLoggedIn]);
 
   async function toggle() {
-    setNeedLogin(false);
+    if (!isLoggedIn) return;
+    setError(null);
+    const next = !saved;
+    setSaved(next); // 낙관적 반영
     try {
       const supabase = createClient();
-      const { data: auth } = await supabase.auth.getUser();
-      if (!auth.user) {
-        setNeedLogin(true);
-        return;
-      }
-      if (saved) {
-        await supabase.from("shoe_wishlists").delete().eq("product_id", productId);
-        setSaved(false);
-      } else {
-        await supabase
-          .from("shoe_wishlists")
-          .insert({ product_id: productId, user_id: auth.user.id });
-        setSaved(true);
+      // user_id 는 DB 기본값(auth.uid())이 채운다
+      const { error } = next
+        ? await supabase.from("shoe_wishlists").insert({ product_id: productId })
+        : await supabase.from("shoe_wishlists").delete().eq("product_id", productId);
+      if (error) {
+        setSaved(!next);
+        setError("잠시 후 다시 시도해주세요.");
       }
     } catch {
-      setNeedLogin(true);
+      setSaved(!next);
+      setError("잠시 후 다시 시도해주세요.");
     }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <a
+        href="/login"
+        className="mt-3 block rounded-full border border-line px-5 py-3 text-center text-sm transition-colors hover:border-ink"
+      >
+        ♡ 찜하려면 로그인
+      </a>
+    );
   }
 
   return (
@@ -71,12 +86,9 @@ export function WishlistButton({ productId }: { productId: string }) {
       >
         {saved ? "♥ 찜한 상품" : "♡ 찜하기"}
       </button>
-      {needLogin && (
-        <p className="mt-2 text-xs text-muted">
-          찜은 로그인 후 사용할 수 있습니다.{" "}
-          <a href="/login" className="underline underline-offset-2 hover:text-ink">
-            로그인하기
-          </a>
+      {error && (
+        <p role="alert" className="mt-2 text-xs text-sale">
+          {error}
         </p>
       )}
     </div>

@@ -107,3 +107,8 @@ $$;
 
 revoke all on function public.shoe_get_order(text, text) from public;
 grant execute on function public.shoe_get_order(text, text) to anon, authenticated;
+
+-- 찜 추가 시 클라이언트가 user_id 를 보내지 않아도 되게 한다.
+-- 버튼이 auth.getUser() 를 따로 부르지 않아도 되고, 남의 id 로 넣는 것도 막힌다.
+alter table public.shoe_wishlists
+  alter column user_id set default auth.uid();
