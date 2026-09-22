@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { hasSupabaseEnv } from "@/lib/supabase/server";
 import { CATEGORIES, MOODS } from "@/lib/taxonomy";
 
 export function Footer() {
@@ -66,6 +67,17 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      {!hasSupabaseEnv() && (
+        <div className="border-t border-line bg-surface-2">
+          <div className="mx-auto max-w-[1280px] px-4 py-3 text-xs leading-relaxed text-ink-2">
+            <strong>환경변수가 설정되지 않아 예시 데이터로 표시 중입니다.</strong> 상품은 보이지만
+            로그인·주문·결제는 동작하지 않습니다. Vercel 환경변수에{" "}
+            <code>NEXT_PUBLIC_SUPABASE_URL</code> 과 <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> 를
+            등록한 뒤 재배포하세요.
+          </div>
+        </div>
+      )}
 
       <div className="border-t border-line">
         <div className="mx-auto max-w-[1280px] px-4 py-5 text-xs text-muted">

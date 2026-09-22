@@ -7,10 +7,6 @@ import { ProductGrid } from "@/components/product/ProductCard";
 import { applyFilters, getCatalog, priceHistogram } from "@/lib/catalog";
 import { MOODS, MOOD_MAP, type MoodId } from "@/lib/taxonomy";
 
-export function generateStaticParams() {
-  return MOODS.map((m) => ({ slug: m.id }));
-}
-
 export async function generateMetadata({
   params,
 }: {
