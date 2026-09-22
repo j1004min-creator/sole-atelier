@@ -78,6 +78,12 @@ npm run dev
 Supabase 환경변수가 없어도 `lib/seed-data.ts` 폴백으로 사이트가 뜹니다. 카탈로그는 보이지만
 주문·결제·로그인은 동작하지 않습니다.
 
+## 데이터베이스
+
+`supabase/migrations/` 의 SQL 을 순서대로 적용하면 스키마·RLS·시드·함수가 모두 만들어집니다.
+자세한 순서와 적용 후 해야 할 일은 [supabase/migrations/README.md](supabase/migrations/README.md)
+를 보세요.
+
 ## 데이터
 
 `lib/seed-data.ts` 가 카탈로그의 단일 원본입니다(브랜드 20개 · 상품 44개 · 무드 매핑 103건).
