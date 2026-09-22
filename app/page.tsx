@@ -23,7 +23,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="border-b border-line bg-surface">
+      <section className="border-b border-line bg-[linear-gradient(160deg,#eef1f6_0%,#f7f8fa_45%,#ffffff_100%)]">
         <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-4 py-12 sm:py-16 lg:grid-cols-2 lg:gap-12 lg:py-20">
           <div>
             <p className="text-xs font-semibold tracking-[0.18em] text-muted">

@@ -4,13 +4,13 @@
 @theme {
   /* 밝은 톤 기반. 어두운 배경은 쓰지 않는다. */
   --color-paper: #ffffff;
-  --color-surface: #faf9f7;
-  --color-surface-2: #f3f1ed;
-  --color-ink: #16181d;
-  --color-ink-2: #43464d;
-  --color-muted: #6e7178;
-  --color-line: #e8e7e3;
-  --color-line-strong: #d7d5cf;
+  --color-surface: #f5f6f8;
+  --color-surface-2: #eaecf0;
+  --color-ink: #101319;
+  --color-ink-2: #3d434d;
+  --color-muted: #6b7280;
+  --color-line: #e3e6ea;
+  --color-line-strong: #c9ced6;
 
   /* 카테고리 강조색 — 칩·그래프·배지에 일관되게 쓴다 */
   --color-sports: #2563eb;
