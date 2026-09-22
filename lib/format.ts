@@ -9,10 +9,6 @@ export function formatShortKRW(value: number): string {
   return value.toLocaleString("ko-KR");
 }
 
-export function formatSize(mm: number): string {
-  return String(mm);
-}
-
 export function discountRate(price: number, compareAt?: number | null): number | null {
   if (!compareAt || compareAt <= price) return null;
   return Math.round(((compareAt - price) / compareAt) * 100);
@@ -38,14 +34,6 @@ export function formatDateTime(iso: string): string {
   });
 }
 
-export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("ko-KR", {
-    timeZone: KST,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}
 
 /** 푸터 저작권 연도 등. 이것도 서버 타임존을 타지 않게 한다. */
 export function currentYearKST(): number {

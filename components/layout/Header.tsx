@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useCart } from "@/components/cart/CartProvider";
-import { CATEGORIES, MOODS } from "@/lib/taxonomy";
+import { MOODS } from "@/lib/taxonomy";
 
 const NAV = [
   { href: "/products", label: "전체" },
@@ -129,20 +129,3 @@ export function Header({ userEmail }: { userEmail: string | null }) {
   );
 }
 
-export function CategoryStrip() {
-  return (
-    <div className="border-b border-line bg-surface">
-      <div className="mx-auto flex max-w-[1280px] gap-2 overflow-x-auto px-4 py-2 hide-scrollbar">
-        {CATEGORIES.map((c) => (
-          <Link
-            key={c.id}
-            href={`/products?category=${c.id}`}
-            className="shrink-0 rounded-full border border-line bg-paper px-3 py-1.5 text-xs text-ink-2 hover:border-line-strong"
-          >
-            {c.name}
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}

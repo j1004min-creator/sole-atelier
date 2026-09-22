@@ -58,18 +58,36 @@ alter table public.shoe_app_secrets   enable row level security;
 -- 카탈로그: 누구나 읽기, 쓰기는 관리자만
 create policy "brands are public"  on public.shoe_brands
   for select to anon, authenticated using (true);
-create policy "brands admin write" on public.shoe_brands
-  for all to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+-- FOR ALL 로 두면 SELECT 까지 포함돼 공개 읽기 정책과 겹친다.
+-- 로그인 사용자가 읽을 때마다 shoe_is_admin() 이 행마다 호출되므로 쓰기만 남긴다.
+create policy "brands admin insert" on public.shoe_brands
+  for insert to authenticated with check (public.shoe_is_admin());
+create policy "brands admin update" on public.shoe_brands
+  for update to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+create policy "brands admin delete" on public.shoe_brands
+  for delete to authenticated using (public.shoe_is_admin());
 
 create policy "products are public"  on public.shoe_products
   for select to anon, authenticated using (true);
-create policy "products admin write" on public.shoe_products
-  for all to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+-- FOR ALL 로 두면 SELECT 까지 포함돼 공개 읽기 정책과 겹친다.
+-- 로그인 사용자가 읽을 때마다 shoe_is_admin() 이 행마다 호출되므로 쓰기만 남긴다.
+create policy "products admin insert" on public.shoe_products
+  for insert to authenticated with check (public.shoe_is_admin());
+create policy "products admin update" on public.shoe_products
+  for update to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+create policy "products admin delete" on public.shoe_products
+  for delete to authenticated using (public.shoe_is_admin());
 
 create policy "product moods are public"  on public.shoe_product_moods
   for select to anon, authenticated using (true);
-create policy "product moods admin write" on public.shoe_product_moods
-  for all to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+-- FOR ALL 로 두면 SELECT 까지 포함돼 공개 읽기 정책과 겹친다.
+-- 로그인 사용자가 읽을 때마다 shoe_is_admin() 이 행마다 호출되므로 쓰기만 남긴다.
+create policy "product moods admin insert" on public.shoe_product_moods
+  for insert to authenticated with check (public.shoe_is_admin());
+create policy "product moods admin update" on public.shoe_product_moods
+  for update to authenticated using (public.shoe_is_admin()) with check (public.shoe_is_admin());
+create policy "product moods admin delete" on public.shoe_product_moods
+  for delete to authenticated using (public.shoe_is_admin());
 
 -- 프로필: 본인 + 관리자. role 은 스스로 바꿀 수 없다 (승격 방지)
 create policy "read own profile" on public.shoe_profiles

@@ -125,12 +125,6 @@ export default function CheckoutPage() {
       }
 
       // 3) 결제창 호출 — 성공/실패 모두 리다이렉트로 돌아온다
-      try {
-        sessionStorage.setItem("sole-atelier-last-order", order.orderId);
-      } catch {
-        /* 저장소가 막혀 있어도 결제는 계속 진행한다 */
-      }
-
       await widgetsRef.current.requestPayment({
         orderId: order.orderId,
         orderName: order.orderName,

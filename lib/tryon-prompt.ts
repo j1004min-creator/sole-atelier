@@ -1,5 +1,4 @@
 import type { Product } from "./catalog";
-import { SHOE_TYPE_MAP } from "./taxonomy";
 
 const TYPE_EN: Record<string, string> = {
   sneakers: "sneakers",
@@ -29,6 +28,3 @@ export function buildTryOnPrompt(product: Product): string {
   ].join(" ");
 }
 
-export function describeForAlt(product: Product): string {
-  return `${product.brand.nameKo} ${product.nameKo} (${SHOE_TYPE_MAP[product.shoeType]}) AI 실착 이미지`;
-}

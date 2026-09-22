@@ -139,3 +139,6 @@ create index shoe_product_moods_mood_idx on public.shoe_product_moods (mood_id);
 create index shoe_orders_user_idx        on public.shoe_orders (user_id);
 create index shoe_orders_email_idx       on public.shoe_orders (customer_email);
 create index shoe_order_items_order_idx  on public.shoe_order_items (order_id);
+-- 외래키에는 커버링 인덱스가 있어야 한다. 없으면 상품 삭제·조인에서 풀스캔이 난다.
+create index shoe_order_items_product_idx on public.shoe_order_items (product_id);
+create index shoe_wishlists_product_idx   on public.shoe_wishlists (product_id);
